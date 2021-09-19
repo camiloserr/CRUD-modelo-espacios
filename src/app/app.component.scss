@@ -1,0 +1,32 @@
+#main_wrapper{
+    padding: 20px;
+}
+#entity_header{
+    margin-bottom: 15px;
+}
+
+.entity_card{
+    width: 700px;
+}
+
+
+// align expansion panel headers
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+///
+
+.add_button_wrapper{
+  margin-top: 15px;
+}

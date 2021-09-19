@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>{{dialogTitle}} region</h1>
+<div mat-dialog-content>
+    <form fxLayout="column" >
+        <mat-form-field appearance="legacy">
+            <mat-label>Nombre</mat-label>
+            <input matInput  name="name" [(ngModel)]="regionName">
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+            <mat-label>Id</mat-label>
+            <input matInput  name="id" [(ngModel)]="regionId">
+        </mat-form-field>
+
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button  (click)="onNoClick()">Cancelar</button>
+  <button mat-button color="primary" [mat-dialog-close]="constructObject()" cdkFocusInitial>{{dialogTitle}}</button>
+</div>

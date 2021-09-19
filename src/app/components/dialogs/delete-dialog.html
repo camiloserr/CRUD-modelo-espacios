@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Seguro?</h1>
+<div mat-dialog-content>
+  <p>Está a punto de eliminar permanentemente este espacio ¿desea continuar?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button  (click)="onNoClick()">Cancelar</button>
+  <button mat-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>Eliminar</button>
+</div>

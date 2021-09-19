@@ -1,0 +1,29 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+
+    <mat-card id="main_card">
+        <mat-card-header>
+            <mat-card-title>Entities</mat-card-title>
+
+
+    
+        </mat-card-header>
+        <mat-card-content>
+            <mat-selection-list [multiple]="false">
+                <mat-list-option value="Region" (click)="navigateTo('region')">
+                    Region
+                </mat-list-option>
+                <mat-list-option value="Edificio" (click)="navigateTo('building')">
+                    Edificio
+                </mat-list-option>
+                <mat-list-option value="Piso" (click)="navigateTo('floor')">
+                    Piso
+                </mat-list-option>
+                <mat-list-option value="Espacio" (click)="navigateTo('space')">
+                    Espacio
+                </mat-list-option>
+            </mat-selection-list>
+
+        </mat-card-content>
+
+    </mat-card>
+</div>

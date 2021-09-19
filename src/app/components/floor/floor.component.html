@@ -1,0 +1,68 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="entity_card">
+        <mat-card-header id="entity_header" fxLayout="row" fxLayoutAlign="space-between center">
+            <mat-card-title>
+                Pisos
+            </mat-card-title>
+        </mat-card-header>
+
+        <form [formGroup]="form" fxLayout="column">
+            <h4>Seleccione una region</h4>
+            <mat-form-field>
+                <mat-label>Region</mat-label>
+                <mat-select [formControl]="regionControl" name="reg" #selectedRegion>
+                    <mat-option *ngFor="let region of campus" [value]="region">
+                        {{region.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Edificio</mat-label>
+                <mat-select [formControl]="buildingControl" name="bui" #selectedBuilding>
+                    <mat-option *ngFor="let building of selectedRegion.value.buildings" [value]="building">
+                        {{building.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+
+
+
+        <mat-accordion class="example-headers-align">
+
+            <mat-expansion-panel *ngFor="let floor of selectedBuilding.value.floors">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{floor.name}}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        id: {{floor.id}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+
+                <!--Building properties-->
+                <mat-list>
+                    <mat-list-item *ngFor="let element of countTypes(floor) | keyvalue">
+                        {{element.key}}: {{element.value}}
+                    </mat-list-item>
+
+                </mat-list>
+
+                <mat-action-row>
+                    <button mat-button color="primary" (click)="modifyFloor(floor)">Modify</button>
+                    <button mat-button color="warn" (click)="deleteFloor(floor)">Delete</button>
+                </mat-action-row>
+
+            </mat-expansion-panel>
+
+            <div fxLayout="row" fxLayoutAlign="end center" class="add_button_wrapper">
+
+                <button mat-mini-fab color="primary" (click)="addFloor()" *ngIf="selectedBuilding.value.floors">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </mat-accordion>
+    </mat-card>
+
+</div>
