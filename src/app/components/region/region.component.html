@@ -10,14 +10,13 @@
     <mat-card-content>
         <mat-accordion class="example-headers-align" >
 
-            <mat-expansion-panel *ngFor="let region of campus">
+            <mat-expansion-panel *ngFor="let region of campus ">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
                     {{region.name}}
                   </mat-panel-title>
                   <mat-panel-description>
                     {{region.id}}
-                        
                   </mat-panel-description>
                 </mat-expansion-panel-header>
             
@@ -29,7 +28,7 @@
 
                 <mat-action-row>
                     <button mat-button color="primary" (click)="modifyRegion(region)">Modify</button>
-                    <button mat-button color="warn" (click)="deleteRegion()">Delete</button>
+                    <button mat-button color="warn" (click)="deleteRegion(region.id)">Delete</button>
                 </mat-action-row>
             
               </mat-expansion-panel>

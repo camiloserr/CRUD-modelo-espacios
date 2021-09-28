@@ -25,28 +25,26 @@ export class SpaceComponent implements OnInit {
   selectedBuilding: any = {};
 
   constructor(public dialog: MatDialog, public data: DatabaseService) {
-    this.campus = data.getCampus();
-    this.form = new FormGroup({
-      reg: this.regionControl,
-      bui: this.buildingControl,
-      flo: this.floorControl
-    });
+    // this.updateCampus();
+    this.data.getCampus2().then( (a) => this.campus = a.response);
   }
 
   ngOnInit(): void {
   }
 
-  addSpace(): void{
+  addSpace(floorId: string): void{
     const dialogRef = this.dialog.open(AddSpaceDialog, {
       width: '450px',
       data: {id: '', name: '', maxOccupation: 0, smokingAllowed: false, eatingAllowed: false, kind: '', owner: ''}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if (result){
         // TODO: llamar al servicio para PUT espacio de l aBD
         console.log('agergando');
         console.log(result);
+        await this.data.postSpace(result, floorId);
+        await this.updateCampus();
       }
       else{
         // NO hacer nada
@@ -73,11 +71,13 @@ export class SpaceComponent implements OnInit {
       width: '250px'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       console.log('The dialog was closed');
       if (result){
         // TODO: eliminar espacio de l aBD
         console.log('eliminmando', spaceId);
+        await this.data.deleteSpace(spaceId);
+        await this.updateCampus();
       }
       else{
         // NO hacer nada
@@ -103,6 +103,22 @@ export class SpaceComponent implements OnInit {
         console.log('cancelado');
       }
     });
+  }
+
+  private async updateCampus(){
+
+    // needed to update the forms later
+    const regionIndex = this.campus.indexOf(this.regionControl.value);
+    const buildingIndex = this.campus[regionIndex].buildings.indexOf(this.buildingControl.value);
+    const floorIndex = this.campus[regionIndex].buildings[buildingIndex].floors.indexOf(this.floorControl.value);
+
+    // getys the campus
+    this.campus = (await this.data.getCampus2()).response;
+
+    // updates the form
+    this.regionControl.setValue(this.campus[regionIndex]);
+    this.buildingControl.setValue(this.campus[regionIndex].buildings[buildingIndex]);
+    this.floorControl.setValue(this.campus[regionIndex].buildings[buildingIndex].floors[floorIndex]);
   }
 }
 

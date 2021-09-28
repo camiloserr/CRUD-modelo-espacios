@@ -13,18 +13,14 @@ import { DeleteDialog } from '../dialogs/Delete-dialog.component';
 export class FloorComponent implements OnInit {
 
   form: FormGroup;
-  campus: any;
+  campus: any[];
 
   regionControl = new FormControl('');
   buildingControl = new FormControl('');
 
 
   constructor(public dialog: MatDialog, public data: DatabaseService) {
-    this.campus = data.getCampus();
-    this.form = new FormGroup({
-      reg: this.regionControl,
-      bui: this.buildingControl
-    });
+    this.data.getCampus2().then( (c) => this.campus = c.response);
   }
 
   countTypes(myFloor: any): any{
@@ -36,16 +32,17 @@ export class FloorComponent implements OnInit {
     return counts;
   }
 
-  deleteFloor(floor: any): void{
+  deleteFloor(floorId: string): void{
     console.log('en la funcion');
     const dialogRef = this.dialog.open(DeleteDialog, {
       width: '250px'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       console.log('The dialog was closed');
       if (result){
-        // TODO: eliminate floor from DB
+        await this.data.deleteSpace(floorId);
+        await this.updateCampus();
       }
       else{
         console.log('cancelado');
@@ -53,17 +50,19 @@ export class FloorComponent implements OnInit {
     });
   }
 
-  addFloor(): void{
+  addFloor(buildingId: string): void{
     const dialogRef = this.dialog.open(AddFloorDialog, {
       width: '450px',
       data: {id: '', name: ''}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if (result){
         // TODO: llamar al servicio para PUT espacio de l aBD
         console.log('agergando');
         console.log(result);
+        await this.data.postSpace(result, buildingId);
+        await this.updateCampus();
       }
       else{
         // NO hacer nada
@@ -89,6 +88,20 @@ export class FloorComponent implements OnInit {
         console.log('cancelado');
       }
     });
+  }
+
+  private async  updateCampus(){
+
+    // needed to update the forms later
+    const regionIndex = this.campus.indexOf(this.regionControl.value);
+    const buildingIndex = this.campus[regionIndex].buildings.indexOf(this.buildingControl.value);
+
+    // getys the campus
+    this.campus = (await this.data.getCampus2()).response;
+
+    // updates the form
+    this.regionControl.setValue(this.campus[regionIndex]);
+    this.buildingControl.setValue(this.campus[regionIndex].buildings[buildingIndex]);
   }
 
   ngOnInit(): void {

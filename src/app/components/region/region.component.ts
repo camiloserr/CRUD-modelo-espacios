@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { DatabaseService } from 'src/app/services/database.service';
 import { AddregionDialog } from '../dialogs/add-region.component';
 import { DeleteDialog } from '../dialogs/Delete-dialog.component';
@@ -14,7 +15,7 @@ export class RegionComponent implements OnInit {
 
   public campus: any[];
   constructor(public dialog: MatDialog, public data: DatabaseService) {
-    this.campus = data.getCampus();
+    this.updateCampus();
    }
 
   ngOnInit(): void {
@@ -26,11 +27,14 @@ export class RegionComponent implements OnInit {
       data: {id: '', name: ''}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       if (result){
-        // TODO: llamar al servicio para PUT region de l aBD
+        // TODO: llamar al servicio para PUT espacio de l aBD
         console.log('agergando');
         console.log(result);
+        await this.data.postRegion(result).subscribe( (res) => console.log(res));
+
+        await this.updateCampus();
       }
       else{
         // NO hacer nada
@@ -39,16 +43,16 @@ export class RegionComponent implements OnInit {
     });
   }
 
-  deleteRegion(): void{
-    console.log('en la funcion');
+  deleteRegion(regionId: string): void{
     const dialogRef = this.dialog.open(DeleteDialog, {
       width: '250px'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       console.log('The dialog was closed');
       if (result){
-        // TODO: eliminate floor from DB
+        await this.data.deleteSpace(regionId);
+        await this.updateCampus();
       }
       else{
         console.log('cancelado');
@@ -73,6 +77,11 @@ export class RegionComponent implements OnInit {
         console.log('cancelado');
       }
     });
+  }
+
+  private async  updateCampus(){
+    this.campus = (await this.data.getCampus2()).response;
+    console.log(this.campus);
   }
 
 }

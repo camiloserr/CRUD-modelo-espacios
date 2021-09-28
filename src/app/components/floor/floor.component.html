@@ -51,14 +51,13 @@
 
                 <mat-action-row>
                     <button mat-button color="primary" (click)="modifyFloor(floor)">Modify</button>
-                    <button mat-button color="warn" (click)="deleteFloor(floor)">Delete</button>
+                    <button mat-button color="warn" (click)="deleteFloor(floor.id)">Delete</button>
                 </mat-action-row>
-
             </mat-expansion-panel>
 
             <div fxLayout="row" fxLayoutAlign="end center" class="add_button_wrapper">
 
-                <button mat-mini-fab color="primary" (click)="addFloor()" *ngIf="selectedBuilding.value.floors">
+                <button mat-mini-fab color="primary" (click)="addFloor(selectedBuilding.value.id)" *ngIf="selectedBuilding.value.floors">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>

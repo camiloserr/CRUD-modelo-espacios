@@ -1,4 +1,7 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -7,58 +10,56 @@ import { Injectable } from '@angular/core';
 export class DatabaseService {
 
   // URL del endpoint del servicio de django de modelo de espacios
-  private endpoint = 'mocked-endpoint.com/database:9000';
-  private campus: any[];
+  private endpoint = 'http://127.0.0.1:8000/SUJ-D-019/spaces/';
+  private campus: Observable<any[]>;
 
-  constructor() {
-    this.campus = this.getCampusFromService();
+  constructor(private http: HttpClient) {
   }
 
-  public getCampus(): any[]{
-    return this.campus;
+
+  // Region has to be handled differently, because it has no parent_id
+  public postRegion(region: any){
+
+    const params = new HttpParams();
+    const body = region;
+
+    return this.http.post<any>(this.endpoint, body,  {params} );
   }
 
-  // Should call the REST service to get the whole campus,
-  // every time an opperation is applied on the DB this method should be called again to keep the cached campus updated
-  private getCampusFromService(): any[]{
+  public getCampus2(){
+    console.log('inside getCampus');
+    // return new Observable<any>();
+    const params = new HttpParams();
+    const answer = this.http.get<any>(this.endpoint, {params} ).toPromise();
+    return answer;
+  }
 
-    const spaces = [
-      {id: 'ED2-P1-SC101', name: 'Salon 101', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SC', maxOccupation: 20},
-      {id: 'ED2-P1-SC102', name: 'Salon 102', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SC', maxOccupation: 25},
-      {id: 'ED2-P1-SC103', name: 'Salon 103', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SC', maxOccupation: 26},
-      {id: 'ED2-P1-SC104', name: 'Salon 104', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SC', maxOccupation: 12},
-      {id: 'ED2-P1-SRnorte', name: 'Sala norte', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SR', maxOccupation: 12},
-      {id: 'ED2-P1-SRsur', name: 'Sala sur', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SR', maxOccupation: 12},
-    ];
-    const spaces2 = [
-      {id: 'ED2-P2-SC201', name: 'Salon 101', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SC', maxOccupation: 20},
-      {id: 'ED2-P2-SC202', name: 'Salon 102', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SC', maxOccupation: 25},
-      {id: 'ED2-P2-SC203', name: 'Salon 103', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SC', maxOccupation: 26},
-      {id: 'ED2-P2-SC204', name: 'Salon 104', smokingAllowed: false, eatingAllowed: false, owner: 'DRF', kind: 'SC', maxOccupation: 12}
-    ];
-    const pisos = [
-      {id: 'ED2-P2', name: 'piso 2', spaces: spaces2},
-      // tslint:disable-next-line: object-literal-shorthand
-      {id: 'ED2-P1', name: 'piso 1', spaces: spaces}
-    ];
-    const edificios =  [
-      {
-      maxOccupation: 200,
-      currentOccupation: 100,
-      id: 'Centro_Javeriano_de_Formación_Deportiva',
-      name: 'Centro Javeriano de formacion deportiva',
-      floors: [],
-      nickName: 'gimnasio'
-    },
-    {
-      maxOccupation: 300,
-      currentOccupation: 130,
-      id: 'Fernando_Barón_SJ',
-      name: 'Fernando Barón',
-      floors: pisos,
-      nickName: 'Barón'
-    }];
+  public postSpace(space: any, parent: string){
+    const params = new HttpParams();
+    const body = space;
+    body.parent_id = parent;
 
-    return [{buildings: edificios, name: 'oriental', id: 'REG_OR'}, {buildings: [], name: 'occidental', id: 'REG_OCC'}];
+    return this.http.post<any>(this.endpoint, body,  {params} ).toPromise();
+  }
+
+  public putSpace(space: any, parent: string){
+    const params = new HttpParams();
+    const body = space;
+    body.parent_id = parent;
+
+    return this.http.put<any>(this.endpoint, body,  {params} ).toPromise();
+  }
+
+
+  public async deleteSpace(id: string){
+    const params = new HttpParams();
+    const path = this.endpoint + id;
+
+    console.log(path);
+    const ans = await this.http.delete<any>(path, {params} ).toPromise();
+    console.log(ans);
+    return ans;
   }
 }
+
+

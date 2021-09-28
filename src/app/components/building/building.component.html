@@ -43,14 +43,14 @@
                 </mat-list>
 
                 <mat-action-row>
-                    <button mat-button color="primary" (click)="modifyBuilding(building)">Modify</button>
+                    <button mat-button color="primary" (click)="modifyBuilding(building, selectedRegion.value.id)">Modify</button>
 
-                    <button mat-button color="warn" (click)="deleteBuilding(building)">Delete</button>
+                    <button mat-button color="warn" (click)="deleteBuilding(building.id)">Delete</button>
                 </mat-action-row>
 
             </mat-expansion-panel>
             <div fxLayout="row" fxLayoutAlign="end center" class="add_button_wrapper">
-                <button mat-mini-fab color="primary" *ngIf="selectedRegion.value.buildings" (click)="addBuilding()">
+                <button mat-mini-fab color="primary" *ngIf="selectedRegion.value.buildings" (click)="addBuilding(selectedRegion.value.id)">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>

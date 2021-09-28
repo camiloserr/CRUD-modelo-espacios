@@ -29,6 +29,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { AddFloorDialog } from './components/dialogs/add-floor.component';
 import { AddBuildingDialog } from './components/dialogs/add-building.component';
 import { AddregionDialog } from './components/dialogs/add-region.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { AddregionDialog } from './components/dialogs/add-region.component';
     ReactiveFormsModule,
     MatDialogModule,
     FormsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
