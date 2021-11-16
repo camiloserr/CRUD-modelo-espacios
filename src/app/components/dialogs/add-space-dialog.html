@@ -26,10 +26,59 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-slide-toggle name="smokingAllowed" [formControl]="smokeControl">Espacio de fumadores?</mat-slide-toggle>
-        <mat-slide-toggle name="eatingAllowed" [formControl]="eatingControl">Permitido comer?</mat-slide-toggle>
+        <mat-form-field appearance="legacy">
+            <mat-label>Area</mat-label>
+            <input matInput type="number" name="areaC"  [formControl]="areaControl" >
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-label>Equipamiento</mat-label>
+            <mat-select multiple [formControl]="equipmentControl" name="equipC" >
+                <mat-option *ngFor="let eq of equipments" [value]="eq">
+                    {{eq}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Acceso</mat-label>
+            <mat-select name="accessC" multiple [formControl]="accessControl">
+              <mat-option *ngFor="let acc of accessList" [value]="acc">{{acc}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+       
+
+        <mat-slide-toggle name="openSpace" [formControl]="openSpaceControl">Espacio al aire libre?</mat-slide-toggle>
+        <mat-slide-toggle name="smokingAllowed" [disabled]="!openSpaceControl.value" [formControl]="smokeControl">Espacio de fumadores?</mat-slide-toggle>
+        <mat-slide-toggle name="eatingAllowed"   [formControl]="eatingControl">Permitido comer?</mat-slide-toggle>
+        <mat-slide-toggle name="ventilation" [formControl]="ventilationControl">Hay ventilación?</mat-slide-toggle>
 
     </form>
+
+     <!--Schedule-->
+
+     <mat-grid-list cols="3" rowHeight="80px">
+        <div *ngFor="let day of daysOfWeek; index as i">
+            <mat-grid-tile>{{day}}</mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="schedule_form_field">
+                    <mat-label>Apertura:</mat-label>
+                    <input matInput type="time" name="open" [(ngModel)]="spaceSchedule[i].initHour">
+                </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+                <mat-form-field appearance="outline" class="schedule_form_field">
+                    <mat-label>Cierre:</mat-label>
+                    <input matInput type="time" name="close" [(ngModel)]="spaceSchedule[i].endHour">
+                </mat-form-field>
+
+            </mat-grid-tile>
+        </div>
+    </mat-grid-list>
 </div>
 <div mat-dialog-actions>
   <button mat-button  (click)="onNoClick()">Cancelar</button>

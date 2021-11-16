@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
 @Component({
     selector: 'add-building-dialog',
-    templateUrl: 'add-building-dialog.html',
+    templateUrl: 'add-building-dialog.html'
 })
 export class AddBuildingDialog {
 
@@ -13,7 +13,18 @@ export class AddBuildingDialog {
 
     buildingName = '';
     buildingId = '';
-    buildingNickname = '';
+    buildingNumber = '';
+    buildingSchedule = [
+        {initHour: '08:00', endHour: '21:00'},
+        {initHour: '08:00', endHour: '21:00'},
+        {initHour: '08:00', endHour: '21:00'},
+        {initHour: '08:00', endHour: '21:00'},
+        {initHour: '08:00', endHour: '21:00'},
+        {initHour: '08:00', endHour: '21:00'},
+        {initHour: '08:00', endHour: '21:00'}
+    ];
+
+    daysOfWeek = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes',  'Sabado', 'Domingo'];
 
     constructor(public dialogRef: MatDialogRef<AddBuildingDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -28,12 +39,24 @@ export class AddBuildingDialog {
 
         this.buildingId = data.id;
         this.buildingName = data.name;
-        this.buildingNickname = data.nickName;
+        this.buildingNumber = data.buildingNumber;
+        
 
     }
 
+    private hourToMinutes(hour:string): number{
+        return ((+hour.substring(0,2))*60) + (+hour.substring(3,5));
+    }
+
     constructObject(): any {
-        const ans = { id: this.buildingId, name: this.buildingName, nickName: this.buildingNickname };
+
+        const schedule = [];
+        this.buildingSchedule.forEach( (element) => {
+            schedule.push({initHour: this.hourToMinutes(element.initHour), endHour: this.hourToMinutes(element.endHour)});
+        });
+        
+        const ans = { id: this.buildingId, name: this.buildingName, buildingNumber: this.buildingNumber, schedule: schedule };
+        console.log(ans);
         return ans;
     }
 

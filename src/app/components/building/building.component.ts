@@ -16,6 +16,8 @@ export class BuildingComponent implements OnInit {
   form: FormGroup;
   campus: any[];
   selectedRegion: string;
+  daysOfWeek = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+
 
   regionControl = new FormControl('');
 
@@ -45,7 +47,7 @@ export class BuildingComponent implements OnInit {
     console.log(regionId);
     const dialogRef = this.dialog.open(AddBuildingDialog, {
       width: '450px',
-      data: { id: '', name: '', nickname: '' }
+      data: { id: '', name: '', buildingNumber: '', schedule: [{}] }
     });
 
     dialogRef.afterClosed().subscribe(async result => {
@@ -68,7 +70,7 @@ export class BuildingComponent implements OnInit {
     console.log(building);
     const dialogRef = this.dialog.open(AddBuildingDialog, {
       width: '450px',
-      data: { id: building.id, name: building.name, nickName: building.nickName }
+      data: { id: building.id, name: building.name, buildingNumber: building.buildingNumber }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -95,6 +97,31 @@ export class BuildingComponent implements OnInit {
 
     // updates the form
     this.regionControl.setValue(this.campus[regionIndex]);
+  }
+
+  minutesToHour(minutes: number){
+    let hour = Math.floor(minutes/60);
+    const min = minutes % 60;
+
+    let minString;
+    if(min < 10){
+      minString = '0'+min;
+    }
+    else{
+      minString = ''+min;
+    }
+    let am = true;
+    if(hour > 12){
+      hour -= 12;
+      am = false;
+    }
+
+    if(am === true){
+      return hour + ':' + minString + 'am';
+    }
+    else{
+      return hour + ':' + minString + 'pm';
+    }
   }
 
   ngOnInit(): void {

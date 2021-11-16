@@ -2,15 +2,26 @@
 <div mat-dialog-content>
     <form fxLayout="column" >
         <mat-form-field appearance="legacy">
-            <mat-label>Nombre</mat-label>
-            <input matInput  name="name" [(ngModel)]="floorName">
+            <mat-label>Número</mat-label>
+            <input matInput  name="name" [(ngModel)]="floorNumber">
         </mat-form-field>
 
         <mat-form-field appearance="legacy">
             <mat-label>Id</mat-label>
             <input matInput  name="id" [(ngModel)]="floorId">
         </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Equipamiento</mat-label>
+            <mat-select name="equipment" multiple [(ngModel)]="selectedEquipment">
+              <mat-option *ngFor="let eq of equipmentList" [value]="eq">{{eq}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-slide-toggle name="assistant" [(ngModel)]="hasAssistant">Slide me!</mat-slide-toggle>
+
     </form>
+
 </div>
 <div mat-dialog-actions>
   <button mat-button  (click)="onNoClick()">Cancelar</button>

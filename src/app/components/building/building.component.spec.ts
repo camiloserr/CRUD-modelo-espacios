@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BuildingComponent } from './building.component';
 
 describe('BuildingComponent', () => {
@@ -21,5 +20,12 @@ describe('BuildingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('#minutes to hour should return 11:11am', () => {
+    const ans = component.minutesToHour(671);
+
+    expect(ans).toEqual('11:11am');
+
   });
 });

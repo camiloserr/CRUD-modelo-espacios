@@ -20,15 +20,16 @@ export class FloorComponent implements OnInit {
 
 
   constructor(public dialog: MatDialog, public data: DatabaseService) {
-    this.data.getCampus2().then( (c) => this.campus = c.response);
+    this.data.getCampus2().then( (c) => {this.campus = c.response; console.log(this.campus);});
   }
 
   countTypes(myFloor: any): any{
     const counts = {};
     myFloor.spaces.forEach(element => {
       console.log(element);
-      counts[element.kind] = counts[element.kind] ? counts[element.kind] + 1 : 1;
+      counts[element.spaceType] = counts[element.spaceType] ? counts[element.spaceType] + 1 : 1;
     });
+    console.log(counts);
     return counts;
   }
 
@@ -53,7 +54,7 @@ export class FloorComponent implements OnInit {
   addFloor(buildingId: string): void{
     const dialogRef = this.dialog.open(AddFloorDialog, {
       width: '450px',
-      data: {id: '', name: ''}
+      data: {id: '', number: '', assistant: false }
     });
 
     dialogRef.afterClosed().subscribe(async result => {

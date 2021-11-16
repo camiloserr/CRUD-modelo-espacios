@@ -38,6 +38,7 @@ export class DatabaseService {
     const params = new HttpParams();
     const body = space;
     body.parent_id = parent;
+    console.log(body);
 
     return this.http.post<any>(this.endpoint, body,  {params} ).toPromise();
   }

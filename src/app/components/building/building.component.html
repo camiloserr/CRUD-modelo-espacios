@@ -37,20 +37,29 @@
                 <!--Building properties-->
                 <mat-list>
                     <mat-list-item>No. de pisos: {{building.floors.length}}</mat-list-item>
-                    <mat-list-item>Apodo: {{building.nickName}}</mat-list-item>
-                    <mat-list-item>Uso: Salones de clase, salas de estudio, laboratorios</mat-list-item>
+                    <mat-list-item>Número: {{building.buildingNumber}}</mat-list-item>
+
 
                 </mat-list>
 
+                Horario:
+                <mat-list>
+                    <mat-list-item *ngFor="let day of building.schedule; index as i">
+                        {{daysOfWeek[i]}}: {{minutesToHour(day.initHour)}} - {{minutesToHour(day.endHour)}}
+                    </mat-list-item>
+                </mat-list>
+
                 <mat-action-row>
-                    <button mat-button color="primary" (click)="modifyBuilding(building, selectedRegion.value.id)">Modify</button>
+                    <button mat-button color="primary"
+                        (click)="modifyBuilding(building, selectedRegion.value.id)">Modify</button>
 
                     <button mat-button color="warn" (click)="deleteBuilding(building.id)">Delete</button>
                 </mat-action-row>
 
             </mat-expansion-panel>
             <div fxLayout="row" fxLayoutAlign="end center" class="add_button_wrapper">
-                <button mat-mini-fab color="primary" *ngIf="selectedRegion.value.buildings" (click)="addBuilding(selectedRegion.value.id)">
+                <button mat-mini-fab color="primary" *ngIf="selectedRegion.value.buildings"
+                    (click)="addBuilding(selectedRegion.value.id)">
                     <mat-icon>add</mat-icon>
                 </button>
             </div>

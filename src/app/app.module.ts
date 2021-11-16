@@ -30,6 +30,7 @@ import { AddFloorDialog } from './components/dialogs/add-floor.component';
 import { AddBuildingDialog } from './components/dialogs/add-building.component';
 import { AddregionDialog } from './components/dialogs/add-region.component';
 import { HttpClientModule } from '@angular/common/http';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatDialogModule,
     FormsModule,
     MatSlideToggleModule,
-    HttpClientModule
+    HttpClientModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

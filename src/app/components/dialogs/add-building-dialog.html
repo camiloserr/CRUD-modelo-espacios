@@ -1,23 +1,53 @@
 <h1 mat-dialog-title>{{dialogTitle}} edificio</h1>
 <div mat-dialog-content>
-    <form fxLayout="column" >
+    <form fxLayout="column">
         <mat-form-field appearance="legacy">
             <mat-label>Nombre</mat-label>
-            <input matInput  name="name" [(ngModel)]="buildingName">
+            <input matInput name="name" [(ngModel)]="buildingName">
         </mat-form-field>
 
         <mat-form-field appearance="legacy">
             <mat-label>Id</mat-label>
-            <input matInput  name="id" [(ngModel)]="buildingId">
+            <input matInput name="id" [(ngModel)]="buildingId">
         </mat-form-field>
 
         <mat-form-field appearance="legacy">
-            <mat-label>Apodo</mat-label>
-            <input matInput  name="nickName" [(ngModel)]="buildingNickname">
+            <mat-label>numero</mat-label>
+            <input matInput  name="num" type="number" [(ngModel)]="buildingNumber">
         </mat-form-field>
+
+
+        <div style="padding: 20px;">
+            <h2>Horario</h2>
+
+            <mat-grid-list cols="3" rowHeight="80px">
+                <div *ngFor="let day of daysOfWeek; index as i">
+                    <mat-grid-tile>{{day}}</mat-grid-tile>
+
+                    <mat-grid-tile>
+                        <mat-form-field appearance="outline" class="schedule_form_field">
+                            <mat-label>Apertura:</mat-label>
+                            <input matInput type="time" name="mondayOpen" [(ngModel)]="buildingSchedule[i].initHour">
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile>
+                        <mat-form-field appearance="outline" class="schedule_form_field">
+                            <mat-label>Cierre:</mat-label>
+                            <input matInput type="time" name="mondayClose" [(ngModel)]='buildingSchedule[i].endHour'>
+                        </mat-form-field>
+
+                    </mat-grid-tile>
+                </div>
+            </mat-grid-list>
+
+        </div>
     </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button  (click)="onNoClick()">Cancelar</button>
-  <button mat-button color="primary" [mat-dialog-close]="constructObject()" cdkFocusInitial>{{dialogTitle}}</button>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button color="primary" [mat-dialog-close]="constructObject()" cdkFocusInitial>{{dialogTitle}}</button>
 </div>
+
+
+

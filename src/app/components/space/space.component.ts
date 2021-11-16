@@ -35,7 +35,7 @@ export class SpaceComponent implements OnInit {
   addSpace(floorId: string): void{
     const dialogRef = this.dialog.open(AddSpaceDialog, {
       width: '450px',
-      data: {id: '', name: '', maxOccupation: 0, smokingAllowed: false, eatingAllowed: false, kind: '', owner: ''}
+      data: {id: '', name: '', maxOccupation: 0, smokingAllowed: false, eatingAllowed: false, spaceType: '', owner: ''}
     });
 
     dialogRef.afterClosed().subscribe(async result => {

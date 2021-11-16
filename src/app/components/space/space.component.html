@@ -30,7 +30,7 @@
                 <mat-label>Piso</mat-label>
                 <mat-select [formControl]="floorControl" name="flo" [(ngModel)]="selectedFloor">
                     <mat-option *ngFor="let floor of selectedBuilding.floors" [value]="floor">
-                        {{floor.name}}
+                        {{floor.number}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -47,11 +47,10 @@
                     {{space.id}}
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-            
                 
                 <!--space properties-->
                 <mat-list>
-                    <mat-list-item >Tipo de espacio: {{space.kind}}</mat-list-item>
+                    <mat-list-item >Tipo de espacio: {{space.spaceType}}</mat-list-item>
                     
                     <mat-list-item >Owner: {{space.owner}}</mat-list-item>
 

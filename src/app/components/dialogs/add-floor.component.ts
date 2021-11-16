@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { strictEqual } from 'assert';
 
 
 @Component({
@@ -11,13 +12,18 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
     dialogTitle: string;
 
-    floorName = '';
+    floorNumber = '';
     floorId = '';
+    selectedEquipment = [];
+    hasAssistant = false;
+    equipmentList = ['Mesas', 'Parlantes', 'Sillas móviles', 'Televisor', 'Tablero', 'VideoBeam', 'Micrófono',
+    'DVD', 'CPU', 'Computadora', 'VHS', 'Escritorio', 'Toma eléctrica', 'Punto de red',
+    'Audiovisuales', 'Telón', 'Blackout'].sort();
 
     constructor(public dialogRef: MatDialogRef<AddFloorDialog>, @Inject(MAT_DIALOG_DATA) public data: any){
 
       // if the object is not empty, we are modifying a space, not adding it
-      if (data.name !== ''){
+      if (data.number !== ''){
         this.dialogTitle = 'Modificar';
       }
       else{
@@ -25,12 +31,15 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
       }
 
       this.floorId = data.id;
-      this.floorName = data.name;
+      this.floorNumber = data.floorNumber;
+      this.hasAssistant = data.assistant;
+
 
     }
 
     constructObject(): any{
-      const ans = {id: this.floorId, name: this.floorName};
+
+      const ans = {id: this.floorId, number: this.floorNumber, assistant: this.hasAssistant, equipment: this.selectedEquipment};
       return ans;
     }
 

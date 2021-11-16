@@ -33,7 +33,7 @@
             <mat-expansion-panel *ngFor="let floor of selectedBuilding.value.floors">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{floor.name}}
+                        {{floor.number}}
                     </mat-panel-title>
                     <mat-panel-description>
                         id: {{floor.id}}
@@ -41,7 +41,7 @@
                 </mat-expansion-panel-header>
 
 
-                <!--Building properties-->
+                <!--floor properties-->
                 <mat-list>
                     <mat-list-item *ngFor="let element of countTypes(floor) | keyvalue">
                         {{element.key}}: {{element.value}}
