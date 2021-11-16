@@ -1,7 +1,9 @@
 # CRUDSpaceModel
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.3.
+This project is part of the smart-UJ iniciative of Pontificia universidad Javeriana.
 
+This web page consumes the spaces model API to make CRUD operations with a friendly interface. 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
